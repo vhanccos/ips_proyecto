@@ -10,23 +10,23 @@ class Doctor(models.Model):
     def __str__(self):
        return self.name;
 
-#class Patient(models.Model):
-#    name = models.CharField(max_length=50)
-#    gender = models.CharField(max_length=10)
-#    mobile = models.IntegerField(null=True)
-#    address = models.CharField(max_length=50)
-
-
-#    def __str__(self):
-#       return self.name;
 class Patient(models.Model):
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
     mobile = models.IntegerField(null=True)
     address = models.CharField(max_length=50)
-    image1 = models.ImageField(upload_to='patient_images/', null=True, blank=True)
-    image2 = models.ImageField(upload_to='patient_images/', null=True, blank=True)
-    notes = models.TextField(null=True, blank=True)
+
+
+    def __str__(self):
+       return self.name;
+#class Patient(models.Model):
+ #   name = models.CharField(max_length=50)
+  #  gender = models.CharField(max_length=10)
+   # mobile = models.IntegerField(null=True)
+    #address = models.CharField(max_length=50)
+    #image1 = models.ImageField(upload_to='patient_images/', null=True, blank=True)
+    #image2 = models.ImageField(upload_to='patient_images/', null=True, blank=True)
+    #notes = models.TextField(null=True, blank=True)
     
     def __str__(self):
        return self.name
