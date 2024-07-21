@@ -1,301 +1,222 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Candal&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Gudea&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <style media="screen">
-    a:link {
-      text-decoration: none;
-    }
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
 
-    a {
-      color: white;
-    }
+        main {
+            height: 100vh;
+        }
 
-    a:hover {
-      color: white;
-    }
+        aside {
+            float: left;
+            width: 300px;
+            background-color: #3B98D3; /* Tono medio celeste */
+            height: 100%;
+            position: relative;
+        }
 
-    body {
+        .sect {
+            float: left;
+            width: calc(100% - 300px);
+            background-color: white;
+            height: 100%;
+        }
 
-      padding-left: 240px;
-    }
-    main {
-      position: relative;
-      height: 100vh;
-    }
+        ul {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
 
-    .menu {
-      background: #21446B;
-      height: 100vh;
-      width: 240px;
-      position: fixed;
-      top: 0px;
-      left: 0;
-      z-index: 5;
-      outline: none;
-    }
-    .menu .avatar {
-      background: rgba(0, 0, 0, 0.1);
-      padding: 2em 0.5em;
-      text-align: center;
-    }
-    .menu .avatar img {
-      width: 100px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 4px solid #ffea92;
-      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
-    }
-    .menu .avatar h2 {
-      font-weight: normal;
-      margin-bottom: 0;
-    }
-    .menu ul {
-      list-style: none;
-      padding: 0.5em 0;
-      margin: 0;
-    }
-    .menu ul li {
-      padding: 0.5em 1em 0.5em 3em;
-      font-size: 0.95em;
-      font-weight: regular;
-      background-repeat: no-repeat;
-      background-position: left 15px center;
-      background-size: auto 20px;
-      transition: all 0.15s linear;
-      cursor: pointer;
-    }
-    .menu ul li.icon-dashboard {
-      background-image: url("http://www.entypo.com/images//gauge.svg");
-    }
-    .menu ul li.icon-customers {
-      background-image: url("http://www.entypo.com/images//briefcase.svg");
-    }
-    .menu ul li.icon-users {
-      background-image: url("http://www.entypo.com/images//users.svg");
-    }
-    .menu ul li.icon-calendar {
-      background-image: url("http://www.entypo.com/images//calendar.svg");
-    }
+        ul li {
+            list-style: none;
+            position: relative;
+        }
 
-    .menu ul li:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
-    .menu ul li:focus {
-      outline: none;
-    }
-    @media screen and (max-width: 900px) and (min-width: 400px) {
-      body {
-        padding-left: 90px;
-      }
-      .menu {
-        width: 90px;
-      }
-      .menu .avatar {
-        padding: 0.5em;
-        position: relative;
-      }
-      .menu .avatar img {
-        width: 60px;
-      }
-      .menu .avatar h2 {
-        opacity: 0;
-        position: absolute;
-        top: 50%;
-        left: 100px;
-        margin: 0;
-        min-width: 200px;
-        border-radius: 4px;
-        background: rgba(0, 0, 0, 0.4);
-        transform: translate3d(-20px, -50%, 0);
-        transition: all 0.15s ease-in-out;
-      }
-      .menu .avatar:hover h2 {
-        opacity: 1;
-        transform: translate3d(0px, -50%, 0);
-      }
-      .menu ul li {
-        height: 60px;
-        background-position: center center;
-        background-size: 30px auto;
-        position: relative;
-      }
-      .menu ul li span {
-        opacity: 0;
-        position: absolute;
-        background: rgba(0, 0, 0, 0.5);
-        padding: 0.2em 0.5em;
-        border-radius: 4px;
-        top: 50%;
-        left: 80px;
-        transform: translate3d(-15px, -50%, 0);
-        transition: all 0.15s ease-in-out;
-      }
-      .menu ul li span:before {
-        content: '';
-        width: 0;
-        height: 0;
-        position: absolute;
-        top: 50%;
-        left: -5px;
-        border-top: 5px solid transparent;
-        border-bottom: 5px solid transparent;
-        border-right: 5px solid rgba(0, 0, 0, 0.5);
-        transform: translateY(-50%);
-      }
-      .menu ul li:hover span {
-        opacity: 1;
-        transform: translate3d(0px, -50%, 0);
-      }
-    }
-    @media screen and (max-width: 400px) {
-      body {
-        padding-left: 0;
-      }
-      .menu {
-        width: 230px;
-        box-shadow: 0 0 0 100em rgba(0, 0, 0, 0);
-        transform: translate3d(-230px, 0, 0);
-        transition: all 0.3s ease-in-out;
-      }
-      .menu .smartphone-menu-trigger {
-        width: 40px;
-        height: 40px;
-        position: absolute;
-        left: 100%;
-        background: #21446B;
-      }
-      .menu .smartphone-menu-trigger:before,
-      .menu .smartphone-menu-trigger:after {
-        content: '';
-        width: 50%;
-        height: 2px;
-        background: #fff;
-        border-radius: 10px;
-        position: absolute;
-        top: 45%;
-        left: 50%;
-        transform: translate3d(-50%, -50%, 0);
-      }
-      .menu .smartphone-menu-trigger:after {
-        top: 55%;
-        transform: translate3d(-50%, -50%, 0);
-      }
-      .menu ul li {
-        padding: 1em 1em 1em 3em;
-        font-size: 1.2em;
-      }
-      .menu:focus {
-        transform: translate3d(0, 0, 0);
-        box-shadow: 0 0 0 100em rgba(0, 0, 0, 0.6);
-      }
-      .menu:focus .smartphone-menu-trigger {
-        pointer-events: none;
-      }
-    }
+        .titu-container {
+            display: flex;
+            flex-direction: column;
+            height: 160px;
+        }
 
+        .titu-1, .titu-2 {
+            width: 100%;
+            height: 80px;
+            text-align: center;
+            padding-top: 20px;
+            font-family: 'Gudea';
+            font-size: 30px; /* Tamaño del texto */
+            color: #D3CDB9;
+            background: #3B98D3; /* Tono medio celeste */
+        }
+
+        .titu-2 {
+            font-family: 'Candal';
+            color: white;
+            padding-top: 16px;
+        }
+
+        .li-main {
+            width: 300px;
+            height: 70px; /* Altura de los botones principales */
+            float: left;
+            text-align: center;
+            padding-top: 20px;
+            font-size: 20px; /* Tamaño del texto */
+            color: black; /* Color del texto negro */
+            transition: all 0.1s linear 0s;
+            background-color: #3B98D3; /* Tono medio celeste */
+            position: relative;
+        }
+
+        .li-main:hover {
+            background-color: rgba(66, 61, 59, 0.7);
+            color: white; /* Cambiar color del texto a blanco al pasar el ratón */
+            border-right: 5px solid #E14B00;
+        }
+
+        .li-main a {
+            color: black; /* Color del texto negro en los enlaces */
+            text-decoration: none;
+            display: block;
+            height: 100%;
+            line-height: 70px; /* Alinear el texto verticalmente */
+        }
+
+        .li-main:hover a {
+            color: white; /* Cambiar color del texto de los enlaces a blanco al pasar el ratón */
+        }
+
+        .submenu {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            width: 300px; /* Ancho igual al del botón principal */
+            background-color: #3B98D3; /* Tono medio celeste */
+            z-index: 10;
+        }
+
+        .submenu li {
+            height: 70px; /* Altura igual a la del botón principal */
+            text-align: center;
+            padding-top: 20px;
+            font-size: 18px; /* Tamaño del texto en el submenú */
+            color: black; /* Color del texto en el submenú */
+            background-color: #7CB342; /* Fondo verde pacay para el submenú */
+        }
+
+        .submenu li a {
+            color: black; /* Color del texto en los enlaces del submenú */
+            text-decoration: none;
+            display: block;
+            height: 100%;
+            line-height: 70px; /* Alinear el texto verticalmente */
+        }
+
+        .submenu li:hover {
+            background-color: rgba(66, 61, 59, 0.7);
+            color: white;
+            border-right: 5px solid #E14B00;
+        }
+
+        .li-main:hover .submenu {
+            display: block;
+        }
+
+        .li-fix {
+            clear: both;
+        }
+
+        .dashboard-btn {
+            margin-bottom: 20px; /* Separar un poco el botón Dashboard del resto */
+        }
+
+        .navbar-nav .nav-item:hover .nav-link {
+            color: black !important; /* Cambiar color al pasar el ratón */
+        }
+
+        .navbar-nav .nav-link {
+            color: white !important; /* Color predeterminado */
+        }
     </style>
-  </head>
-  <body>
-    <!-- partial:index.partial.html -->
-    <nav class="menu" tabindex="0">
-      <div class="smartphone-menu-trigger"></div>
-      <header class="avatar">
-        <img src="{% static 'images/h8.png' %}" />
-        <br>
-        <br>
-        <h6 style="color : white">Admin</h6>
-      </header>
-      <ul>
-        <li tabindex="0" class="icon-dashboard">
-          <a style="color:white;
-                    text-decoration:none"
-             href="{% url 'admin_home' %}"><span>Panel</span></a>
-        </li>
-        <li tabindex="0" class="nav-item dropdown icon-customers">
-          <a href=""
-             class="nav-link dropdown-toggle text-dark bg-light"
-             id="navbardrop"
-             data-toggle="dropdown"
-             style="color:white;
-                    text-decoration:none">Doctores</a>
-          <div class="dropdown-menu">
-            <a href="{% url 'add_doctor' %}" class="dropdown-item">Agregar doctores</a>
-            <a href="{% url 'view_doctor' %}" class="dropdown-item">Ver doctores</a>
-          </div>
-        </li>
-        <li tabindex="0" class="nav-item dropdown icon-users">
-          <a href=""
-             class="nav-link dropdown-toggle text-dark bg-light"
-             id="navbardrop"
-             data-toggle="dropdown"
-             style="color:white;
-                    text-decoration:none">Pacientes</a>
-          <div class="dropdown-menu">
-            <a href="{% url 'add_patient' %}" class="dropdown-item">Agregar pacientes</a>
-            <a href="{% url 'view_patient' %}" class="dropdown-item">Ver pacientes</a>
-          </div>
-        </li>
-        <li tabindex="0" class="nav-item dropdown icon-calendar">
-          <a href=""
-             class="nav-link dropdown-toggle text-dark bg-light"
-             id="navbardrop"
-             data-toggle="dropdown"
-             style="color:white;
-                    text-decoration:none">Citas</a>
-          <div class="dropdown-menu">
-            <a href="{% url 'add_appointment' %}" class="dropdown-item">Agregar citas</a>
-            <a href="{% url 'view_appointment' %}" class="dropdown-item">Ver citas</a>
-          </div>
-        </li>
-        <li tabindex="0" class="nav-item dropdown icon-calendar">
-          <a href=""
-             class="nav-link dropdown-toggle text-dark bg-light"
-             id="navbardrop"
-             data-toggle="dropdown"
-             style="color:white;
-                    text-decoration:none">View Queries</a>
-          <div class="dropdown-menu">
-            <a href="{% url 'unread_queries' %}" class="dropdown-item">Unread Queries</a>
-            <a href="{% url 'read_queries' %}" class="dropdown-item">Read Queries</a>
-          </div>
-        </li>
-      </ul>
-    </nav>
+    <title>Document</title>
+</head>
+
+<body>
     <main>
-      <!-- nav start -->
-      <div class="bs-example">
-        <nav class="navbar navbar-expand-md  navbar-dark fixed-top"
-             style="background:#c2185b">
-          <a href="#" class="navbar-brand">SISTEMA DE HISTORIAS ODONTOLÓGICAS</a>
-          <button type="button"
-                  class="navbar-toggler"
-                  data-toggle="collapse"
-                  data-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-between"
-               id="navbarCollapse">
-            <div class="navbar-nav" style=" margin-left: 88%;">
-              <a href="{% url 'logout' %}" class="nav-item nav-link"><i class="fas fa-power-off" style=" padding-right: 10px;"></i>Cerrar sesión</a>
-            </div>
-          </div>
-        </nav>
-      </div>
-      <!-- nav end -->
-      <!-- content start-->
-      {% block content %}
-      {% endblock content %}
-      <!-- content end-->
+        <aside>
+            <ul>
+                <li class="titu-container">
+                    <div class="titu-1">ArteDental</div>
+                    <div class="titu-2">AQP</div>
+                </li>
+                <li class="li-main dashboard-btn">
+                    <a href="{% url 'admin_home' %}">Panel Principal</a>
+                </li>
+                <li class="li-main">
+                    DOCTOR
+                    <ul class="submenu">
+                        <li><a href="{% url 'view_doctor' %}">Ver Doctores</a></li>
+                        <li><a href="{% url 'add_doctor' %}">Añadir Doctor</a></li>
+                    </ul>
+                </li>
+                <li class="li-main">
+                    PACIENTE
+                    <ul class="submenu">
+                        <li><a href="{% url 'view_patient' %}">Ver Pacientes</a></li>
+                        <li><a href="{% url 'add_patient' %}">Añadir Paciente</a></li>
+                    </ul>
+                </li>
+                <li class="li-main">
+                    CITAS
+                    <ul class="submenu">
+                        <li><a href="{% url 'view_appointment' %}">Ver Citas</a></li>
+                        <li><a href="{% url 'add_appointment' %}">Añadir cita</a></li>
+                    </ul>
+                </li>
+                <li class="li-main"><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+                <li class="li-fix"></li>
+            </ul>
+        </aside>
+        <section class="sect">
+            <!-- nav start -->
+            <div class="bs-example">
+                <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background:#c2185b">
+                  <a href="#" class="navbar-brand">SISTEMA DE HISTORIAS ODONTOLÓGICAS</a>
+                  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav">
+                      <a href="{% url 'logout' %}" class="nav-item nav-link"><i class="fas fa-power-off" style=" padding-right: 10px;"></i>Cerrar sesión</a>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+            <!-- nav end -->
+            <!-- content start-->
+            {% block content %}
+            {% endblock content %}
+            <!-- content end-->
+        </section>
     </main>
-  </body>
+</body>
+
 </html>

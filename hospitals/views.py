@@ -4,6 +4,13 @@ from django.contrib.auth import authenticate,logout,login
 from .models import *
 from datetime import date
 
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import login_required
+from .forms import DoctorCreationForm
+
+from django.contrib.auth.models import Group, Permission
+from .forms import DoctorCreationForm
+from .models import Doctor
 # Create your views here.
 
 def About(request):
@@ -43,6 +50,9 @@ def adminlogin(request):
             error = "yes"
     return render(request,'login.html', locals())
 
+
+#
+
 def admin_home(request):
     if not request.user.is_staff:
         return redirect('login_admin')
@@ -57,21 +67,49 @@ def Logout(request):
     logout(request)
     return redirect('index')
 
+#def add_doctor(request):
+#    error=""
+#    if not request.user.is_staff:
+#        return redirect('login')
+#    if request.method=='POST':
+#        n = request.POST['name']
+#        m = request.POST['mobile']
+#        sp = request.POST['special']
+#        try:
+#            Doctor.objects.create(name=n,mobile=m,special=sp)
+#            error="no"
+#        except:
+#            error="yes"
+#    return render(request,'add_doctor.html', locals())
+
+
+#
 def add_doctor(request):
-    error=""
+    error = ""
     if not request.user.is_staff:
         return redirect('login')
-    if request.method=='POST':
-        n = request.POST['name']
-        m = request.POST['mobile']
-        sp = request.POST['special']
+    if request.method == 'POST':
+        name = request.POST['name']
+        mobile = request.POST['mobile']
+        special = request.POST['special']
+        username = request.POST['username']
+        password = request.POST['password']
         try:
-            Doctor.objects.create(name=n,mobile=m,special=sp)
-            error="no"
-        except:
-            error="yes"
-    return render(request,'add_doctor.html', locals())
+            user = User.objects.create(username=username)
+            user.set_password(password)
+            user.save()
+            doctor = Doctor.objects.create(user=user, name=name, mobile=mobile, special=special)
+            doctor_group, created = Group.objects.get_or_create(name='DoctorGroup')
+            user.groups.add(doctor_group)
+            user.user_permissions.add(Permission.objects.get(codename='view_patient'))
+            user.user_permissions.add(Permission.objects.get(codename='view_appointment'))
+            error = "no"
+        except Exception as e:
+            error = "yes"
+            print(e)
+    return render(request, 'add_doctor.html', locals())
 
+#
 def view_doctor(request):
     if not request.user.is_staff:
         return redirect('login')
@@ -79,13 +117,25 @@ def view_doctor(request):
     d = {'doc':doc}
     return render(request,'view_doctor.html', d)
 
-def Delete_Doctor(request,pid):
+#def Delete_Doctor(request,pid):
+#    if not request.user.is_staff:
+#        return redirect('login')
+#    doctor = Doctor.objects.get(id=pid)
+#    doctor.delete()
+#    return redirect('view_doctor.html')
+def Delete_Doctor(request, pid):
     if not request.user.is_staff:
         return redirect('login')
-    doctor = Doctor.objects.get(id=pid)
-    doctor.delete()
-    return redirect('view_doctor.html')
+    try:
+        doctor = Doctor.objects.get(id=pid)
+        user = doctor.user  # Asumiendo que el modelo Doctor tiene una relación OneToOne con User
+        doctor.delete()
+        user.delete()
+    except Doctor.DoesNotExist:
+        pass
+    return redirect('view_doctor')
 
+######
 def edit_doctor(request,pid):
     error = ""
     if not request.user.is_authenticated:
@@ -107,6 +157,7 @@ def edit_doctor(request,pid):
         except:
             error = "yes"
     return render(request, 'edit_doctor.html', locals())
+
 
 def add_patient(request):
     error = ""
@@ -217,4 +268,18 @@ def view_queries(request,pid):
     contact.isread = "yes"
     contact.save()
     return render(request,'view_queries.html', locals())
+
+@permission_required('app.view_patient', raise_exception=True)
+def view_patient(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    patients = Patient.objects.all()
+    return render(request, 'view_patient.html', {'patients': patients})
+
+@permission_required('app.view_appointment', raise_exception=True)
+def view_appointment(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    appointments = Appointment.objects.all()
+    return render(request, 'view_appointment.html', {'appointments': appointments})
 

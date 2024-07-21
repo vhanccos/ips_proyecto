@@ -2,21 +2,33 @@ from django.db import models
 
 # Create your models here.
 
+#class Doctor(models.Model):
+#    name = models.CharField(max_length=50)
+#    mobile = models.IntegerField()
+#    special = models.CharField(max_length=50)
+
+#    def __str__(self):
+#       return self.name;
+
+from django.contrib.auth.models import User
+
 class Doctor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=50)
     mobile = models.IntegerField()
     special = models.CharField(max_length=50)
 
     def __str__(self):
-       return self.name;
-
+       return self.name
+    
+#######
 class Patient(models.Model):
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
     mobile = models.IntegerField(null=True)
     address = models.CharField(max_length=50)
 
-
+    
     def __str__(self):
        return self.name;
 #class Patient(models.Model):
@@ -37,6 +49,7 @@ class Appointment(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     date1 = models.DateField()
     time1 = models.TimeField()
+
 
     def __str__(self):
        return self.doctorname+"--"+self.patient.name;
